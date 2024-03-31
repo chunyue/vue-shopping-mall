@@ -1,4 +1,5 @@
 # shopping
+這是一個用vue製作的前端網站
 
 ## Project setup
 ```
