@@ -53,13 +53,35 @@
               />
             </div>
             <!-- 描述 -->
-            <div class="input-group">
+            <div class="input-group input-group-sm mb-3">
               <span class="input-group-text">產品描述</span>
               <textarea
                 v-model="product.description"
                 class="form-control"
                 aria-label="產品描述"
               ></textarea>
+            </div>
+            <!-- 庫存 -->
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text">創建時間</span>
+              <input
+                v-model="product.createDate"
+                type="datetime"
+                class="form-control"
+                aria-label="創建時間"
+                disabled
+              />
+            </div>
+            <!-- 最後修改時間 -->
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text">最後修改時間</span>
+              <input
+                v-model="product.lastModifiedDate"
+                type="datetime"
+                class="form-control"
+                aria-label="最後修改時間"
+                disabled
+              />
             </div>
             <div class="d-flex justify-content-end mt-3">
               <button
@@ -214,4 +236,8 @@ const handledelete = async () => {
   margin-right: 10px;
 }
 
+.input-group .input-group-text {
+  width: 33%;
+  justify-content: center;
+}
 </style>
