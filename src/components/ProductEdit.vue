@@ -181,7 +181,7 @@ const handleUpdate = async () => {
         confirmButtonText: "確定",
       }).then((result) => {
         if (result.value) {
-          router.push(`/admin/products/${productId}/edit`);
+          window.location.reload();
         }
       });
     }
