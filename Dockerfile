@@ -22,6 +22,9 @@ FROM nginx:alpine
 # 複製構建好的文件到 Nginx 服務器的靜態資源目錄
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
+# 複製自定義的 nginx 配置文件
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # 暴露 Nginx 服務器的端口
 EXPOSE 80
 
