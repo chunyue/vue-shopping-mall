@@ -61,6 +61,25 @@
                 aria-label="產品描述"
               ></textarea>
             </div>
+            <!-- 選取的圖片 -->
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text">產品圖片</span>
+              <div class="form-control">
+                <input
+                  id="protuct-image"
+                  type="file"
+                  @change="handleFileChange"
+                  accept="image/*"
+                />
+                <button
+                  v-on:click="handleUpload(product.id)"
+                  class="btn btn-default btn-sm"
+                  v-if="isFileUploaded"
+                >
+                  上傳圖片
+                </button>
+              </div>
+            </div>
             <!-- 庫存 -->
             <div class="input-group input-group-sm mb-3">
               <span class="input-group-text">創建時間</span>
@@ -106,12 +125,19 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { getProduct, updateProduct, deleteProduct } from "@/api/api.js";
+import {
+  getProduct,
+  updateProduct,
+  deleteProduct,
+  uploadImage,
+} from "@/api/api.js";
 import { useRoute, useRouter } from "vue-router";
 import Swal from "sweetalert2";
 
 const route = useRoute();
 const router = useRouter(); // 獲取 router 實例來進行導航
+const isFileUploaded = ref(false);
+let productImage = null;
 const productId = route.params.id;
 const product = ref({
   id: null,
@@ -227,6 +253,39 @@ const handledelete = async () => {
     }
   } catch (error) {
     console.error("產品更新失敗", error);
+  }
+};
+
+// 上傳圖片
+const handleUpload = async (productId) => {
+  console.log("file", productImage);
+  if (productImage) {
+    const formData = new FormData();
+    formData.append("file", productImage);
+    try {
+      const response = await uploadImage(productId, formData);
+      console.log("圖片已上傳");
+      product.value.imageUrl = response.imageUrl;
+    } catch (error) {
+      Swal.fire({
+        title: "圖片上傳失敗，請聯繫管理員",
+        icon: "error",
+        confirmButtonText: "確定",
+      });
+    }
+  } else {
+    Swal.fire({
+      title: "請上傳圖片",
+      icon: "error",
+      confirmButtonText: "確定",
+    });
+  }
+};
+
+const handleFileChange = (event) => {
+  productImage = event.target.files[0];
+  if (productImage) {
+    isFileUploaded.value = true;
   }
 };
 </script>
