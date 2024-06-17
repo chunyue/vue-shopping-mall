@@ -101,3 +101,21 @@ export const createProduct = async (productData) => {
     throw error;
   }
 };
+
+export const uploadImage = async (productId, formData) => {
+  try {
+    const response = await axios.post(
+      `/product/${productId}/upload`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log("error uploading image", error);
+    throw error;
+  }
+};
